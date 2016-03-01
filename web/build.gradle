@@ -1,0 +1,269 @@
+	task wrapper(type: Wrapper) {
+	gradleVersion = '2.6'
+	}
+
+	buildscript {
+		repositories {
+			mavenCentral()
+			mavenLocal()
+		}
+		dependencies {
+			classpath 'com.github.kulya:jmeter-gradle-plugin:1.3.2-2.6'
+		}
+	}
+	apply plugin:'jmeter'
+	def performanceTestReportDir = file("$buildDir/reports/tests")
+	jmeterRun.configure {
+		jmeterTestFiles = [ file("$rootDir/web/src/test-performance/resources/com/wipro/test/SpringQPerformanceTestPlan.jmx")]
+		jmeterPropertyFile = file("$rootDir/web/src/test-performance/resources/com/wipro/test/jmeter.properties")
+		// To get the host , port , path list values in jmx file use the ${__P(host)} , ${__P(port)}, ${__P(path)} in the domain , port and path in jmx file.
+		// remove proxy settings in jmx file
+		jmeterUserProperties = ["host="+config.server.hostname,"port="+config.server.port,"path="+appName]
+		reportDir = performanceTestReportDir
+	}
+
+
+	project(':web') {
+
+	apply plugin: 'java'
+	apply plugin: 'war'
+	apply plugin: 'pmd'
+	apply plugin: "jdepend"
+	apply plugin: 'sonar-runner'
+	apply plugin: 'maven'
+	apply plugin: 'maven-publish'
+	apply plugin: 'com.bmuschko.cargo'
+
+
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		//maven {
+		//url jcenterLocalRepoPath
+		//credentials {
+		//	username = repoUserName
+		//	password = repoPassword
+		//}
+		//}
+		
+		//maven {
+		//url mavenLocalRepoPath
+		//credentials {
+		//	username = repoUserName
+		//	password = repoPassword
+		//}
+		//}
+		//jcenter()
+
+		//maven { url "http://repo.maven.apache.org/maven2" }
+	}
+
+	dependencies {
+	compile group: 'commons-io', name: 'commons-io', version: '1.4'
+	compile group: 'log4j', name: 'log4j', version: '1.2.15', ext: 'jar'
+
+	//compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1', ext:'jar'
+	 providedCompile 'javax.servlet:servlet-api:2.5'
+	compile 'org.springframework:spring-webmvc:4.0.0.RELEASE'
+	//runtime 'javax.servlet:jstl:1.2.1'
+	runtime 'javax.servlet:jstl:1.2'
+	compile 'net.sf.json-lib:json-lib:2.4:jdk15'
+	compile 'org.springframework:spring-tx:4.1.6.RELEASE'
+	compile 'org.springframework:spring-jdbc:4.1.6.RELEASE'
+	compile 'com.fasterxml.jackson.core:jackson-annotations:2.5.2'
+	compile 'com.fasterxml.jackson.core:jackson-core:2.5.2'
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.5.2'
+	
+	compile 'org.seleniumhq.selenium:selenium-java:2.46.0'
+	compile 'org.testng:testng:6.8'
+
+	}
+
+	sourceSets {
+		integrationTest {
+			java.srcDir file("src/test-integration/java")
+			resources.srcDir file("src/test-integration/resources")
+			compileClasspath = sourceSets.main.output + configurations.testRuntime
+			runtimeClasspath = output + compileClasspath
+		}
+		performanceTest {
+			java.srcDir file("src/test-performance/java")
+			resources.srcDir file("src/test-performance/resources")
+			compileClasspath = sourceSets.main.output + configurations.testRuntime
+			runtimeClasspath = output + compileClasspath
+		}
+		functionalTest {
+			java.srcDir file("src/test-functional/java")
+			resources.srcDir file("src/test-functional/resources")
+			compileClasspath = sourceSets.main.output + configurations.testRuntime
+			runtimeClasspath = output + compileClasspath
+		}
+	}
+
+	task createBuildInfoFile << {
+		def buildInfoFile = new File("$buildDir/build-info.properties")
+		Properties props = new Properties()
+		props.setProperty('version', project.version.toString())
+		props.setProperty('timestamp', project.buildTimestamp)
+		props.store(buildInfoFile.newWriter(), null)
+	}
+
+	war {
+	dependsOn createBuildInfoFile
+		baseName = appName
+
+		from(buildDir) {
+			include 'build-info.properties'
+			into('WEB-INF/classes')
+		}
+	}
+
+	pmd {
+		ignoreFailures = true
+	}
+	tasks.withType(Pmd) {
+		reports {
+			xml.enabled = false
+			html.enabled = true
+		}
+	}
+
+	jdepend {
+		toolVersion = '2.9.1'
+		ignoreFailures = true
+	}
+
+	sonarRunner {
+		sonarProperties {
+			property "sonar.host.url", sonarHostUrl
+			property "sonar.jdbc.url", sonarJdbcUrl
+			property "sonar.jdbc.driverClassName", sonarJdbcDriverClassName
+			property "sonar.jdbc.username", sonarJdbcUserName
+			property "sonar.jdbc.password", sonarJdbcPassword
+		}
+	}
+
+	subprojects {
+		sonarRunner {
+			sonarProperties {
+				property "sonar.sourceEncoding", "UTF-8"
+			}
+		}
+	}
+
+	task myZip(type: Zip) {
+		from "$buildDir/reports/tests/"
+
+	}
+	publishing {
+		publications {
+			webApp(MavenPublication) {
+				groupId mavenGroupId
+				artifactId appName
+				version version
+
+				from components.web
+			}
+		//functionalReports(MavenPublication){
+				//groupId mavenGroupId
+				//artifactId "FunctionalReports"
+				//version version
+				//artifact(myZip) {
+			   //classifier "reports"
+			   //}
+			  // }
+		 performanceReports(MavenPublication){
+				groupId mavenGroupId
+				artifactId "PerformanceReports"
+				version version
+				
+				artifact(myZip) {
+					classifier "reports"
+				}
+			}
+
+		}
+		repositories {
+			maven {
+				url releasesRepoPath
+				credentials {
+					username = repoUserName
+					password = repoPassword
+				}
+			}
+		}
+	}
+
+	repositories {
+		maven {
+			url releasesRepoPath 
+		}
+	}
+	configurations {
+		downloadWar
+	}
+	println "$mavenGroupId:$appName:$project.version@war"
+	dependencies {		
+		downloadWar ("$mavenGroupId:$appName:$project.version@war"){ 
+		 artifact {
+				name = "$appName"
+				extension = 'war'
+				type = 'war'
+			}
+		}
+	}
+
+	task downloadBinaryArchive(type: Copy) {		
+		from configurations.downloadWar
+		into "$buildDir\\libs"		
+	}
+
+	cargo {
+		containerId = config.server.containerId
+		port = config.server.port
+
+		deployable {
+			def fileName = appName+"-"+version
+			def filePath = "$buildDir/libs/$fileName"+".war"
+			file = new File ("$buildDir/libs/$fileName"+".war")
+			context = appName
+		}
+		
+		local {
+			homeDir = file(config.server.localHomeDir)
+		}
+	}
+
+
+	//Integration Test
+	task integrationTest(type: Test) {
+		description = 'Runs the integration tests.'
+		group = 'verification'
+		testClassesDir = sourceSets.integrationTest.output.classesDir
+		classpath = sourceSets.integrationTest.runtimeClasspath
+
+	}
+
+	//Performance Test
+	task performanceTest(type: Test , dependsOn: jmeterRun ) {
+		description = 'Runs the performance tests.'
+		group = 'verification'
+		testClassesDir = sourceSets.performanceTest.output.classesDir
+		classpath = sourceSets.performanceTest.runtimeClasspath
+
+	}
+
+	//Functional Test
+	task functionalTest(type: Test) {
+		//testClassesDir = sourceSets.functionalTest.output.classesDir
+		//classpath = sourceSets.functionalTest.runtimeClasspath
+		//systemProperty 'url', "$config.server.hostname:$config.server.port/$appName/"
+		//useTestNG(){
+		//suites 'src/test-functional/resources/testing.xml'
+		//}
+
+	}
+
+}
+
+

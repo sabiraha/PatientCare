@@ -1,0 +1,296 @@
+@CHARSET "ISO-8859-1";
+body {
+	 margin:0px auto;
+}
+#content {
+	height: 100%;
+	width: 100%;
+}
+#header {
+	background-color: #A9E2F3;
+	height: 55px;
+	width: 100%;
+	border-bottom-color: black;
+	border-bottom-style: solid;
+	border-bottom-width: thin;
+}
+
+#container {
+	margin-top: 10px; 
+	height: 530px;
+	margin-left: 4%;
+}
+
+#footer {
+	border-top: thin solid black;
+	background-color: #A9E2F3;
+	height: 50px;
+}
+
+.loginTbl {
+	padding-top: 10%;
+	padding-left: 35%;
+}
+
+#msg {
+	float: right;
+	margin-right: 3%;
+    padding-top: 0.5%;
+}
+
+#tabs {
+	margin-right: 3%;
+}
+
+.headerBar {
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.headerTxt {
+	font-family: Verdana;
+	margin-left: 40%;
+	font-size: x-large;
+	padding-top: 1%;
+}
+
+.ui-tabs-vertical { width: 55em; min-width:95% }
+.ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; width: 12em; min-height:450px; }
+.ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; }
+.ui-tabs-vertical .ui-tabs-nav li a { display:block; }
+.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0; padding-right: .1em; border-right-width: 1px; }
+.ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: left; width: 79%;}
+
+#tabs-1, #tabs-2, #tabs-3, #tabs-4 {
+	height: 440px;
+	overflow: auto;
+}
+
+ #disease {
+	height: 350px;
+	background-color: #E6E6E6;
+}
+
+#userList {
+	height: 304px;
+	margin-left: 1%;
+}
+
+#diseaseData {
+	height: 250px;
+}
+
+#diseasemessage {
+	margin-top: 4%;
+    float: right;
+    margin-right: 20%;
+}
+
+#message {
+    float: right;
+    margin-right: 15%;
+    margin-top: -4%;
+}
+
+#signupmessage {
+	float: right;
+    margin-right: 15%;
+    margin-top: 0.5%;
+}
+
+#changePassMessage {
+	float: right;
+    margin-right: 15%;
+	margin-top: -2.5%;	
+}
+
+#newSignUpList {
+	height: 350px;
+}
+
+#horizontal-tab1, #horizontal-tab2 {
+	height: 270px;
+}
+
+.diseaseTbl {
+	font-family: Verdana;
+	border-collapse: collapse;
+	border-spacing: 5px;
+}
+
+.diseaseTbl th {
+	background-color: #848484;
+	font-size: small;
+	width: 200px;
+}
+
+/* .diseaseTbl td {
+	border-bottom: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	
+} */
+
+.diseaseTbl td {
+	font-size: small;
+	width: 200px;
+	text-align: center;
+}
+
+.submitSection {
+	padding-top: 2%;
+	margin-left: 85%;
+}
+
+.linkFont {
+	font-family: Verdana;
+	font-size: medium;
+}
+
+
+
+#userListTable, #signUpTbl, #fillPassTbl, #diseaseTbl {
+	font-family: Verdana;
+	border-collapse: collapse;
+	border-spacing: 5px;
+	overflow-y: auto;
+    max-height: 190px;
+    table-layout: fixed;
+    
+}
+
+#userListTable th {
+	text-align: center;
+	background-color: #A4A4A4;
+	font-size: small;
+	cursor: pointer;
+}
+
+#userListTable td {
+	text-align: center;
+	font-size: small;
+	overflow: hidden;
+}
+
+#signUpTbl th {
+	text-align: center;
+	background-color: #A4A4A4;
+	font-size: small;
+	cursor: pointer;
+}
+
+ #signUpTbl td {
+	text-align: center;
+	font-size: small;
+}
+
+ #fillPassTbl th {
+	text-align: center;
+	background-color: #A4A4A4;
+	font-size: small;
+	cursor: pointer;
+} 
+
+
+#fillPassTbl td {
+	text-align: center;
+	font-size: small;
+}
+
+
+ #diseaseTbl th {
+	text-align: center;
+	background-color: #A4A4A4;
+	font-size: small;
+	cursor: pointer;
+} 
+
+
+#diseaseTbl td {
+	text-align: center;
+	font-size: small;
+}
+
+.logininnerTbl {
+	padding-left: 10%; 
+}
+
+.logininnerTbl td {
+	text-align: left;
+	font-size: medium;
+	width: 115px;
+}
+
+.userTbl td {
+	text-align: center;
+	font-size: small;
+	width: 115px;
+}
+
+.userSubmitSection {
+	margin-left: 88%;
+	padding-top: 0.5%;
+}
+
+.textboxStyle {
+	text-align: left;
+	background-color:inherit;
+}
+
+.btn {
+  background: #3498db;
+  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  -webkit-border-radius: 28;
+  -moz-border-radius: 28;
+  border-radius: 5px;
+  font-family: Tahoma !important;
+  color: #ffffff;
+  font-size: 15px !important;
+  padding: 6px 10px 6px 10px;
+  text-decoration: none;
+  
+}
+
+.btn:hover {
+  cursor: pointer;
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
+
+#diseaseTbl tr:nth-child(even), #userListTable tr:nth-child(even), #signUpTbl tr:nth-child(even), #fillPassTbl tr:nth-child(even) {
+	background-color: #D8D8D8;
+}
+#diseaseTbl tr:nth-child(odd), #userListTable tr:nth-child(odd), #signUpTbl tr:nth-child(odd), #fillPassTbl tr:nth-child(odd) {
+	background-color: #F2F2F2;
+}
+
+#diseaseTbl thead, tbody { display: block; }
+#userListTable thead, tbody { display: block; }
+#fillPassTbl thead, tbody { display: block; }
+#signUpTbl thead, tbody { display: block; }
+
+#diseaseTbl thead { background-color: #A4A4A4; }
+#signUpTbl thead { background-color: #A4A4A4; }
+#userListTable thead { background-color: #A4A4A4; }
+/* #fillPassTbl thead { background-color: #A4A4A4; } */
+
+#diseaseTbl tbody, #userListTable tbody, #fillPassTbl tbody {
+    height: 200px;       
+    overflow-y: auto;    
+    overflow-x: hidden;  
+}
+
+#signUpTbl tbody {
+	height: 300px;      
+    overflow-y: auto;    
+    overflow-x: hidden; 
+}

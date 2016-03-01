@@ -1,0 +1,54 @@
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.6'
+}
+
+allprojects {
+	apply from: "$rootDir/gradle/versioning.gradle"
+}
+
+//Read the environment specific configuration 
+def env = project.hasProperty('env') ? project.getProperty('env') : 'test'
+def configFile = file("$rootDir/gradle/config/envConfig.groovy")
+def parsedConfig = new ConfigSlurper(env).parse(configFile.toURL())
+
+//Assign the properties object to the global config object
+ext.config = parsedConfig
+
+buildscript {
+    repositories {
+	maven {
+		url jcenterLocalRepoPath
+		credentials {
+			username = repoUserName
+			password = repoPassword
+		}
+	}
+    mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.bmuschko:gradle-cargo-plugin:2.1.1'
+    }
+}
+
+def webProjects() {
+    subprojects.findAll { subproject -> subproject.plugins.hasPlugin('war') }
+}
+
+gradle.projectsEvaluated {
+    configure(webProjects()) {
+        apply plugin: 'com.bmuschko.cargo'
+
+        cargo {
+            containerId = config.server.containerId
+        port = config.server.port.toInteger()
+    
+            remote {
+                hostname = config.server.hostname
+                username = config.server.username
+                password = config.server.password
+            }
+        }
+    }
+}
+
