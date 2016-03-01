@@ -140,6 +140,7 @@
 			property "sonar.jdbc.driverClassName", sonarJdbcDriverClassName
 			property "sonar.jdbc.username", sonarJdbcUserName
 			property "sonar.jdbc.password", sonarJdbcPassword
+			property "sonar.projectName", appName
 		}
 	}
 
