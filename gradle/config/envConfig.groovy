@@ -4,7 +4,7 @@ dev {
 		server {
 			localHomeDir = '/apache/apache-tomcat-8.0.24-dev'
 			containerId = 'tomcat8x'
-			hostname = 'localhost'
+			hostname = 'ec2-54-169-227-19.ap-southeast-1.compute.amazonaws.com'
 			port = 8091
 			context = appName
 			username = 'tomcat'
@@ -15,7 +15,7 @@ qa {
 		server {
 			localHomeDir = '/apache/apache-tomcat-8.0.24-qa'
 			containerId = 'tomcat8x'
-			hostname = 'localhost'
+			hostname = 'ec2-54-169-227-19.ap-southeast-1.compute.amazonaws.com'
 			port = 8092
 			context = appName
 			username = 'tomcat'
@@ -26,7 +26,7 @@ perf {
 		server {
 			localHomeDir = '/apache/apache-tomcat-8.0.24-perf'
 			containerId = 'tomcat8x'
-			hostname = 'localhost'
+			hostname = 'ec2-54-169-227-19.ap-southeast-1.compute.amazonaws.com'
 			port = 8093
 			context = appName
 			username = 'tomcat'
@@ -37,7 +37,7 @@ stage {
 		server {
 			localHomeDir = '/apache/apache-tomcat-8.0.24-stage'
 			containerId = 'tomcat8x'
-			hostname = 'localhost'
+			hostname = 'ec2-54-169-227-19.ap-southeast-1.compute.amazonaws.com'
 			port = 8094
 			context = appName
 			username = 'tomcat'
@@ -48,7 +48,7 @@ prod {
 		server {
 			localHomeDir = '/apache/apache-tomcat-8.0.24-prod'
 			containerId = 'tomcat8x'
-			hostname = 'localhost'
+			hostname = 'ec2-54-169-227-19.ap-southeast-1.compute.amazonaws.com'
 			port = 8095
 			context = appName
 			username = 'tomcat'
