@@ -16,6 +16,7 @@ ext.config = parsedConfig
 
 buildscript {
     repositories {
+	mavenLocal()
 	maven {
 		url jcenterLocalRepoPath
 		credentials {
